@@ -40,11 +40,10 @@ export default function LoginPage() {
         .single();
 
       toast.success("¡Bienvenido de vuelta!");
-      router.refresh();
       if (profile?.role === "medico") {
-        router.push("/medico");
+        window.location.href = "/medico";
       } else {
-        router.push("/dashboard");
+        window.location.href = "/dashboard";
       }
     }
   }
