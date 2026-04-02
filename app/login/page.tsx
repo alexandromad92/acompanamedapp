@@ -32,19 +32,20 @@ export default function LoginPage() {
       return;
     }
 
-    if (data.user) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", data.user.id)
-        .single();
+    if (data.session) {
+      // Exchange tokens server-side so the server can read the session
+      const res = await fetch("/api/auth/callback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        }),
+      });
 
+      const json = await res.json();
       toast.success("¡Bienvenido de vuelta!");
-      if (profile?.role === "medico") {
-        window.location.href = "/medico";
-      } else {
-        window.location.href = "/dashboard";
-      }
+      window.location.href = json.redirectTo ?? "/dashboard";
     }
   }
 
