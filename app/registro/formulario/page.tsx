@@ -135,8 +135,8 @@ export default function FormularioPage() {
         patient_id: user.id,
         nombre: file.name,
         tipo: ext?.toUpperCase() ?? "Documento",
-        url: path,
-        estado: "Pendiente de revisión",
+        storage_path: path,
+        estado: "Pendiente de revisión" as const,
       });
 
       if (!dbError) {

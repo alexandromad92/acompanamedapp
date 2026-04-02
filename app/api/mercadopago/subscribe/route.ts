@@ -48,9 +48,10 @@ export async function POST(request: NextRequest) {
     const admin = createAdminClient();
     await admin.from("subscriptions").upsert({
       patient_id: user.id,
-      mp_preapproval_id: mpData.id,
-      mp_payer_email: payer_email,
-      status: "incomplete",
+      mp_preapproval_id: mpData.id as string,
+      mp_payer_email: payer_email as string,
+      status: "incomplete" as const,
+      current_period_end: null,
     });
 
     return NextResponse.json({ init_point: mpData.init_point, id: mpData.id });
