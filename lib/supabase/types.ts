@@ -7,6 +7,7 @@ export type MessageSenderDb = 'medico' | 'paciente'
 export type SubscriptionStatus = 'active' | 'trialing' | 'past_due' | 'canceled' | 'incomplete'
 
 export interface Database {
+  PostgrestVersion: "12"
   public: {
     Tables: {
       profiles: {
@@ -125,8 +126,20 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['subscriptions']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['subscriptions']['Insert']>
+        Insert: {
+          patient_id: string
+          mp_preapproval_id?: string | null
+          mp_payer_email?: string | null
+          status: SubscriptionStatus
+          current_period_end?: string | null
+        }
+        Update: {
+          patient_id?: string
+          mp_preapproval_id?: string | null
+          mp_payer_email?: string | null
+          status?: SubscriptionStatus
+          current_period_end?: string | null
+        }
       }
     }
   }
