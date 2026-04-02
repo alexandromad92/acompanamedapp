@@ -46,11 +46,12 @@ export async function POST(request: NextRequest) {
 
     // Guardar en Supabase (estado pendiente)
     const admin = createAdminClient();
-    await admin.from("subscriptions").upsert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (admin as any).from("subscriptions").upsert({
       patient_id: user.id,
-      mp_preapproval_id: mpData.id as string,
-      mp_payer_email: payer_email as string,
-      status: "incomplete" as const,
+      mp_preapproval_id: mpData.id,
+      mp_payer_email: payer_email,
+      status: "incomplete",
       current_period_end: null,
     });
 
